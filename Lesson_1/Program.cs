@@ -1,21 +1,32 @@
 ﻿using System;
+using System.IO;
 using System.Net.Http;
-using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Lesson_1
 {
     class Program
     {
-        private readonly HttpClient client = new HttpClient();
-        static void Main(string[] args)
-        {             
-            var httpRequest = new HttpRequestMessage(HttpMethod.Get, $"/posts/{id}");
+        static readonly HttpClient client = new();
+        static async Task Main(string[] args)
+        {
+            for (var i = 4; i <= 13; i++)
+            {
+                await GetPostById(i);
+            }
+        }
+
+        static async Task GetPostById (int id)
+        {
             try
             {
-                HttpResponseMessage response = client.SendAsync(httpRequest).Result;
-                using var responseStream = response.Content.ReadAsStreamAsync().Result;
+                HttpResponseMessage response = await client.GetAsync($"https://jsonplaceholder.typicode.com/posts/{id}");
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var responseBodyArray = responseBody.TrimStart('{').TrimEnd('}').Split(',');
+                File.AppendAllLines("result.txt", responseBodyArray);
+                File.AppendAllText("result.txt", "\r");
 
-                var metricsResponse = JsonSerializer.DeserializeAsync<AllHddMetricsApiResponse>(responseStream).Result;
             }
             catch (HttpRequestException e)
             {
