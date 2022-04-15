@@ -29,6 +29,16 @@ namespace SOLIDWebApplication.DAL.Repositories
             throw new NotImplementedException();
         }
 
+        IList<Person> IRepository<Person>.GetByPaging(int skip, int take)
+        {
+            throw new NotImplementedException();
+        }
+
+        Person IRepository<Person>.SerachByTerm(string Term)
+        {
+            throw new NotImplementedException();
+        }
+
         void IRepository<Person>.Update(int id)
         {
             throw new NotImplementedException();

@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SOLIDWebApplication.DAL.Interfaces
+namespace SOLIDWebApplication.DAL.Responses
 {
-    public interface IPersonsRepository : IRepository<Person>
+    public class PersonsResponse
     {
+        public PersonControllerDTO PersonControllerDTO { get; set; }
     }
 }
