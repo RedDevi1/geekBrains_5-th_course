@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SOLIDWebApplication.Models;
 
 namespace SOLIDWebApplication
 {
-    internal sealed class UserDbContext : DbContext
+    internal sealed class PersonDbContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
+        public DbSet<Person> Persons { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder
         optionsBuilder)
         {
@@ -14,7 +15,7 @@ namespace SOLIDWebApplication
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<User>().Ignore(x => x.Comment);
+            modelBuilder.Entity<Person>();
         }
     }
 }

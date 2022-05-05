@@ -7,12 +7,12 @@ namespace SOLIDWebApplication.DAL.Interfaces
 {
     public interface IRepository<T> where T : class
     {
-        IList<T> GetAll();
+        IReadOnlyList<T> GetAll();
         T GetById(int Id);
         T SerachByTerm(string Term);
-        IList<T> GetByPaging(int skip, int take);
-        void Create(T item);
-        void Update(int id);
-        void Delete(int id);
+        IReadOnlyList<T> GetByPaging(int skip, int take);
+        bool Create(T entity);
+        bool Update(T entity);
+        bool Delete(int id);
     }
 }

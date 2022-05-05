@@ -27,21 +27,24 @@ namespace SOLIDWebApplication.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Create([FromBody] Person person)
+        public bool Create([FromBody] Person person)
         {
-            return Ok();
+            var result = repository.Create(person);
+            return result;
         }
 
-        [HttpPut("update/{id}")]
-        public IActionResult Update([FromRoute] int id)
+        [HttpPut("update")]
+        public bool Update([FromBody] Person person)
         {
-            return Ok();
+            var result = repository.Update(person);
+            return result;
         }
 
         [HttpDelete("delete/{id}")]
-        public IActionResult Delete([FromRoute] int id)
+        public bool Delete([FromRoute] int id)
         {
-            return Ok();
+            var result = repository.Delete(id);
+            return result;
         }
 
         [HttpGet("getall")]
