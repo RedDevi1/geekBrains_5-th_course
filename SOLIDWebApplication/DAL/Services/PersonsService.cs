@@ -17,9 +17,9 @@ namespace SOLIDWebApplication.DAL.Services
             this.repository = repository;
             this.mapper = mapper;
         }
-        public IList<PersonDTO> GetAll()
+        public IReadOnlyList<PersonDTO> GetAll()
         {
-            IList<Person> persons = repository.GetAll();
+            IReadOnlyList<Person> persons = repository.GetAll();
             var personsDTOList = new List<PersonDTO>();
             foreach(var person in persons)
             {
@@ -42,9 +42,9 @@ namespace SOLIDWebApplication.DAL.Services
             return personsDTO;
         }
 
-        public IList<PersonDTO> GetByPaging(int skip, int take)
+        public IReadOnlyList<PersonDTO> GetByPaging(int skip, int take)
         {
-            IList<Person> persons = repository.GetAll();
+            IReadOnlyList<Person> persons = repository.GetAll();
             var personsDTOList = new List<PersonDTO>();
             foreach (var person in persons)
             {

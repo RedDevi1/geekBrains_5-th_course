@@ -7,9 +7,9 @@ namespace SOLIDWebApplication.DAL.Interfaces
 {
     public interface IService<T> where T : class
     {
-        IList<T> GetAll();
+        IReadOnlyList<T> GetAll();
         T GetById(int Id);
         T SerachByTerm(string Term);
-        IList<T> GetByPaging(int skip, int take);
+        IReadOnlyList<T> GetByPaging(int skip, int take);
     }
 }
