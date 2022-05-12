@@ -9,21 +9,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SOLIDWebApplication.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PersonsController : ControllerBase
     {
-        private IPersonsRepository repository;
-        private IPersonsService personsService;
+        private readonly IPersonsRepository repository;
+        private readonly IPersonsService personsService;
         private readonly IMapper mapper;
         public PersonsController(IPersonsRepository repository, IPersonsService personsService, IMapper mapper)
         {
             this.personsService = personsService;
             this.repository = repository;
             this.mapper = mapper;
+        }
+
+        [AllowAnonymous]
+        [HttpPost("authenticate")]
+        public IActionResult Authenticate([FromQuery] string user, string password)
+        {
+            string token = personsService.Authenticate(user, password);
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                return BadRequest(new
+                {
+                    message = "Username or password is incorrect"
+                });
+            }
+            return Ok(token);
         }
 
         [HttpPost("add")]
