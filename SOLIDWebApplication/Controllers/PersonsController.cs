@@ -16,7 +16,7 @@ namespace SOLIDWebApplication.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class PersonsController : ControllerBase
+    public sealed class PersonsController : ControllerBase
     {
         private readonly IPersonsRepository repository;
         private readonly IPersonsService personsService;
@@ -32,16 +32,41 @@ namespace SOLIDWebApplication.Controllers
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromQuery] string user, string password)
         {
-            string token = personsService.Authenticate(user, password);
-            if (string.IsNullOrWhiteSpace(token))
+            TokenResponse token = personsService.Authenticate(user, password);
+            if (token is null)
             {
                 return BadRequest(new
                 {
                     message = "Username or password is incorrect"
                 });
             }
+            SetTokenCookie(token.RefreshToken);
             return Ok(token);
         }
+
+        [HttpPost("refresh-token")]
+        public IActionResult Refresh()
+        {
+            string oldRefreshToken = Request.Cookies["refreshToken"];
+            string newRefreshToken = personsService.RefreshToken(oldRefreshToken);
+
+            if (string.IsNullOrWhiteSpace(newRefreshToken))
+            {
+                return Unauthorized(new { message = "Invalid token" });
+            }
+            SetTokenCookie(newRefreshToken);
+            return Ok(newRefreshToken);
+        }
+        private void SetTokenCookie(string token)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTime.UtcNow.AddDays(7)
+            };
+            Response.Cookies.Append("refreshToken", token, cookieOptions);
+        }
+
 
         [HttpPost("add")]
         public bool Create([FromBody] Person person)

@@ -27,11 +27,9 @@ namespace SOLIDWebApplication.DAL.Services
             this.repository = repository;
             this.mapper = mapper;
         }
-
         public TokenResponse Authenticate(string user, string password)
         {
-            if (string.IsNullOrWhiteSpace(user) ||
-            string.IsNullOrWhiteSpace(password))
+            if (string.IsNullOrWhiteSpace(user) || string.IsNullOrWhiteSpace(password))
             {
                 return null;
             }
@@ -40,8 +38,7 @@ namespace SOLIDWebApplication.DAL.Services
             foreach (KeyValuePair<string, AuthResponse> pair in _users)
             {
                 i++;
-                if (string.CompareOrdinal(pair.Key, user) == 0 &&
-                string.CompareOrdinal(pair.Value.Password, password) == 0)
+                if (string.CompareOrdinal(pair.Key, user) == 0 && string.CompareOrdinal(pair.Value.Password, password) == 0)
                 {
                     tokenResponse.Token = GenerateJwtToken(i, 15);
                     RefreshToken refreshToken = GenerateRefreshToken(i);
@@ -58,9 +55,7 @@ namespace SOLIDWebApplication.DAL.Services
             foreach (KeyValuePair<string, AuthResponse> pair in _users)
             {
                 i++;
-                if
-                (string.CompareOrdinal(pair.Value.LatestRefreshToken.Token, token) == 0
-                && pair.Value.LatestRefreshToken.IsExpired is false)
+                if (string.CompareOrdinal(pair.Value.LatestRefreshToken.Token, token) == 0 && pair.Value.LatestRefreshToken.IsExpired is false)
                 {
                     pair.Value.LatestRefreshToken = GenerateRefreshToken(i);
                     return pair.Value.LatestRefreshToken.Token;
@@ -73,8 +68,7 @@ namespace SOLIDWebApplication.DAL.Services
         {
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             byte[] key = Encoding.ASCII.GetBytes(SecretCode);
-            SecurityTokenDescriptor tokenDescriptor = new
-            SecurityTokenDescriptor
+            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
