@@ -1,33 +1,44 @@
 ﻿var matrixSize = 5;
 var matrix = new int[matrixSize, matrixSize];
-var cnt = 0;
+var cnt = 1;
 var indent = 0;
-while (cnt < 26)
+while (cnt < matrixSize * matrixSize)
 {
-    for (var i = 0; i < matrixSize; i++)
+    for (var i = indent; i < matrixSize - indent; i++)
     {
-        indent++;
-        if (i == 0 && cnt == 0)
-        {
-            for (var j = 0; j < matrixSize; j++)
-            {
-                cnt++;
-                matrix[i, j] = cnt;
-            }
-        }
-        else if (i > 0 && i < matrixSize - 1)
-        {
-            cnt++;
-            matrix[i, matrixSize - indent] = cnt;
-        }
-        else if (i == matrixSize - 1 && cnt < 15)
-        {
-            for (var j = matrixSize - 1; j >= 0; j--)
-            {
-                cnt++;
-                matrix[i, j] = cnt;
-            }
-        }
+        matrix[indent, i] = cnt;
+        cnt++;
     }
+
+    for (var i = indent + 1; i < matrixSize - indent; i++)
+    {
+        matrix[i, matrixSize - 1 - indent] = cnt;
+        cnt++;
+    }
+
+    for (var i = matrixSize - 2 - indent; i >= indent; i--)
+    {
+        matrix[matrixSize - 1 - indent, i] = cnt;
+        cnt++;
+    }
+
+    for (var i = matrixSize - 2 - indent; i > indent; i--)
+    {
+        matrix[i, indent] = cnt;
+        cnt++;
+    }
+
+    indent++;
+}
+
+matrix[indent, indent] = cnt;
+
+for (var i = 0; i < matrixSize; i++)
+{
+    for (var j = 0; j < matrixSize; j++)
+    {
+        Console.Write("{0} ", matrix[i, j]);
+    }
+    Console.WriteLine();
 }
 
