@@ -12,6 +12,7 @@ namespace SOLIDWebApplication.DAL.Interfaces
 {
     public interface IPersonsService : IService<PersonDTO>
     {
+        bool IsUserNameAlreadyExist(string firstName);
         TokenResponse Authenticate(string user, string password);
         string RefreshToken(string token);
     }
