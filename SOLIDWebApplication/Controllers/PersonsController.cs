@@ -9,15 +9,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SOLIDWebApplication.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class PersonsController : ControllerBase
+    public sealed class PersonsController : ControllerBase
     {
-        private IPersonsRepository repository;
-        private IPersonsService personsService;
+        private readonly IPersonsRepository repository;
+        private readonly IPersonsService personsService;
         private readonly IMapper mapper;
         public PersonsController(IPersonsRepository repository, IPersonsService personsService, IMapper mapper)
         {
@@ -25,6 +27,46 @@ namespace SOLIDWebApplication.Controllers
             this.repository = repository;
             this.mapper = mapper;
         }
+
+        [AllowAnonymous]
+        [HttpPost("authenticate")]
+        public IActionResult Authenticate([FromQuery] string user, string password)
+        {
+            TokenResponse token = personsService.Authenticate(user, password);
+            if (token is null)
+            {
+                return BadRequest(new
+                {
+                    message = "Username or password is incorrect"
+                });
+            }
+            SetTokenCookie(token.RefreshToken);
+            return Ok(token);
+        }
+
+        [HttpPost("refresh-token")]
+        public IActionResult Refresh()
+        {
+            string oldRefreshToken = Request.Cookies["refreshToken"];
+            string newRefreshToken = personsService.RefreshToken(oldRefreshToken);
+
+            if (string.IsNullOrWhiteSpace(newRefreshToken))
+            {
+                return Unauthorized(new { message = "Invalid token" });
+            }
+            SetTokenCookie(newRefreshToken);
+            return Ok(newRefreshToken);
+        }
+        private void SetTokenCookie(string token)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTime.UtcNow.AddDays(7)
+            };
+            Response.Cookies.Append("refreshToken", token, cookieOptions);
+        }
+
 
         [HttpPost("add")]
         public bool Create([FromBody] Person person)
