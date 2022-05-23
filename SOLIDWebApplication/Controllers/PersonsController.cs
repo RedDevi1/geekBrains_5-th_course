@@ -21,11 +21,13 @@ namespace SOLIDWebApplication.Controllers
         private readonly IPersonsRepository repository;
         private readonly IPersonsService personsService;
         private readonly IMapper mapper;
-        public PersonsController(IPersonsRepository repository, IPersonsService personsService, IMapper mapper)
+        private readonly IPersonValidationService validationService;
+        public PersonsController(IPersonsRepository repository, IPersonsService personsService, IMapper mapper, IPersonValidationService validationService)
         {
             this.personsService = personsService;
             this.repository = repository;
             this.mapper = mapper;
+            this.validationService = validationService;
         }
 
         [AllowAnonymous]
@@ -71,8 +73,13 @@ namespace SOLIDWebApplication.Controllers
         [HttpPost("add")]
         public bool Create([FromBody] Person person)
         {
-            var result = repository.Create(person);
-            return result;
+            IReadOnlyList<IOperationFailure> failures = validationService.ValidateEntity(person);
+            if (failures.Count == 0)
+            {
+                var result = repository.Create(person);
+                return result;
+            }
+            return false;
         }
 
         [HttpPut("update")]
