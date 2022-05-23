@@ -123,5 +123,10 @@ namespace SOLIDWebApplication.DAL.Services
             }
             return personsDTOList;
         }
+
+        public bool IsUserNameAlreadyExist(string firstName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
