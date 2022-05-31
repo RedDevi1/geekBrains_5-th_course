@@ -7,26 +7,26 @@ using SOLIDWebApplication.Models;
 
 namespace SOLIDWebApplication.DAL.Repositories
 {
-    internal sealed class PersonsRepository : IPersonsRepository
+    public class PersonsRepository : IPersonsRepository
     {
         private readonly PersonDbContext _context;
         public PersonsRepository(PersonDbContext context)
         {
             _context = context;
         }
-        //public bool Create(Person entity)
-        //{
-        //    try
-        //    {
-        //        _context.Add(entity);
-        //        _context.SaveChanges();
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        return false;
-        //    }
-        //    return true;
-        //}
+        public bool Create(Person entity)
+        {
+            try
+            {
+                _context.Add(entity);
+                _context.SaveChanges();
+            }
+            catch (Exception exception)
+            {
+                return false;
+            }
+            return true;
+        }
 
         public bool Delete(int id)
         {
@@ -55,10 +55,10 @@ namespace SOLIDWebApplication.DAL.Repositories
             throw new NotImplementedException();
         }
 
-        //public bool Update(Person entity)
-        //{
-        //    return Commit();
-        //}
+        public bool Update(Person entity)
+        {
+            return Commit();
+        }
 
         private bool Commit()
         {
