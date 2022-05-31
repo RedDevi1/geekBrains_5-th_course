@@ -9,19 +9,47 @@ namespace SOLIDWebApplication.Models
     [Table("Person", Schema = "Test")]
     public sealed class Person : BaseEntity<int>
     {
-        //[Column("FirstName")]
+        private PersonDbContext Context { get; set; }
+
+        [Column("FirstName")]
         public string FirstName { get; set; }
 
-        //[Column("LastName")]
+        [Column("LastName")]
         public string LastName { get; set; }
 
-        //[Column("Email")]
+        [Column("Email")]
         public string Email { get; set; }
 
-        //[Column("Company")]
+        [Column("Company")]
         public string Company { get; set; }
 
-        //[Column("Age")]
+        [Column("Age")]
         public int Age { get; set; }
+
+        public void Create (Person person)
+        {          
+            try
+            {
+                Context.Add(person);
+                Context.SaveChanges();
+            }
+            catch (Exception exception)
+            {
+                throw new Exception (exception.Message);
+            }
+        }
+
+        public void Update(Person person)
+        {
+            try
+            {
+                Context.Update(person);
+                Context.SaveChanges();
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+        }
     }
 }

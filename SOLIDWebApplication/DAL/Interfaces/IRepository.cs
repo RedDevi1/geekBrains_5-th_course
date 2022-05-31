@@ -11,8 +11,8 @@ namespace SOLIDWebApplication.DAL.Interfaces
         T GetById(int Id);
         T SerachByTerm(string Term);
         IReadOnlyList<T> GetByPaging(int skip, int take);
-        bool Create(T entity);
-        bool Update(T entity);
+        //bool Create(T entity);
+        //bool Update(T entity);
         bool Delete(int id);
     }
 }

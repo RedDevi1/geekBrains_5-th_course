@@ -71,22 +71,25 @@ namespace SOLIDWebApplication.Controllers
 
 
         [HttpPost("add")]
-        public bool Create([FromBody] Person person)
+        public IActionResult Create([FromBody] Person person)
         {
             IReadOnlyList<IOperationFailure> failures = validationService.ValidateEntity(person);
             if (failures.Count == 0)
             {
-                var result = repository.Create(person);
-                return result;
+                person.Create(person);
             }
-            return false;
+            return Ok();
         }
 
         [HttpPut("update")]
-        public bool Update([FromBody] Person person)
+        public IActionResult Update([FromBody] Person person)
         {
-            var result = repository.Update(person);
-            return result;
+            IReadOnlyList<IOperationFailure> failures = validationService.ValidateEntity(person);
+            if (failures.Count == 0)
+            {
+                person.Update(person);
+            }
+            return Ok();
         }
 
         [HttpDelete("delete/{id}")]
