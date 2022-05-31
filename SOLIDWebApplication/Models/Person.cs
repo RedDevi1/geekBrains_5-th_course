@@ -1,4 +1,5 @@
 ﻿using System;
+using SOLIDWebApplication.DAL.Repositories;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -9,7 +10,12 @@ namespace SOLIDWebApplication.Models
     [Table("Person", Schema = "Test")]
     public sealed class Person : BaseEntity<int>
     {
-        private PersonDbContext Context { get; set; }
+        private readonly PersonsRepository repository;
+
+        public Person (PersonsRepository repository)
+        {
+            this.repository = repository;
+        }
 
         [Column("FirstName")]
         public string FirstName { get; set; }
@@ -30,8 +36,7 @@ namespace SOLIDWebApplication.Models
         {          
             try
             {
-                Context.Add(person);
-                Context.SaveChanges();
+               repository.Create (person);
             }
             catch (Exception exception)
             {
@@ -43,8 +48,7 @@ namespace SOLIDWebApplication.Models
         {
             try
             {
-                Context.Update(person);
-                Context.SaveChanges();
+                repository.Update (person);
             }
             catch (Exception exception)
             {

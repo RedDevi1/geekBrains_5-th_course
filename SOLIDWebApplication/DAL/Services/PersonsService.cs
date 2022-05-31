@@ -13,7 +13,7 @@ using SOLIDWebApplication.DAL.Responses;
 
 namespace SOLIDWebApplication.DAL.Services
 {
-    internal sealed class PersonsService : IPersonsService
+    public sealed class PersonsService : IPersonsService
     {
         private IPersonsRepository repository;
         private readonly IMapper mapper;

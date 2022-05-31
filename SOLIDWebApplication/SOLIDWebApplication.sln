@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Matrix", "..\Matrix\Matrix.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestValidation", "..\TestValidation\TestValidation.csproj", "{65F39418-5444-4A15-BC57-689C378B6E6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cross-zero", "..\Cross-zero\Cross-zero.csproj", "{16CF6CA1-D510-4B19-87B5-5A8A827A46A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cross-zero", "..\Cross-zero\Cross-zero.csproj", "{16CF6CA1-D510-4B19-87B5-5A8A827A46A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonDataTest", "..\PersonDataTest\PersonDataTest.csproj", "{C22B2694-F0B6-4824-9B80-3CE6AF6AC449}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{16CF6CA1-D510-4B19-87B5-5A8A827A46A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16CF6CA1-D510-4B19-87B5-5A8A827A46A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16CF6CA1-D510-4B19-87B5-5A8A827A46A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C22B2694-F0B6-4824-9B80-3CE6AF6AC449}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C22B2694-F0B6-4824-9B80-3CE6AF6AC449}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C22B2694-F0B6-4824-9B80-3CE6AF6AC449}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C22B2694-F0B6-4824-9B80-3CE6AF6AC449}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
